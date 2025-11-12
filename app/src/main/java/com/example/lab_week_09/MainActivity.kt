@@ -13,11 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.lab_week_09.ui.theme.LAB_WEEK_09Theme
 
 class MainActivity : ComponentActivity() {
@@ -29,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MyApp()
+                    HomeScreen()
                 }
             }
         }
@@ -37,17 +32,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp() {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HomeScreen(navController) }
-        composable("second") { SecondScreen(navController) }
-    }
-}
-
-// 🏠 Home Screen
-@Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen() {
     var name by remember { mutableStateOf("") }
     var items by remember { mutableStateOf(listOf("Tanu", "Tina", "Tono")) }
 
@@ -64,6 +49,7 @@ fun HomeScreen(navController: NavController) {
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
+        // TextField untuk input nama baru
         TextField(
             value = name,
             onValueChange = { name = it },
@@ -73,7 +59,7 @@ fun HomeScreen(navController: NavController) {
                 .padding(vertical = 8.dp)
         )
 
-        // Tombol Submit
+        // Tombol submit
         Button(
             onClick = {
                 if (name.isNotBlank()) {
@@ -86,14 +72,7 @@ fun HomeScreen(navController: NavController) {
             Text(text = stringResource(id = R.string.button_click))
         }
 
-        // Tombol Navigate
-        Button(
-            onClick = { navController.navigate("second") },
-            modifier = Modifier.padding(vertical = 8.dp)
-        ) {
-            Text(text = stringResource(id = R.string.button_navigate))
-        }
-
+        // Daftar item di bawah tombol
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(top = 16.dp)
@@ -109,32 +88,10 @@ fun HomeScreen(navController: NavController) {
     }
 }
 
-// ✨ Second Screen
-@Composable
-fun SecondScreen(navController: NavController) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Navigation Success!",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        Button(onClick = { navController.navigate("home") }) {
-            Text("Back to Home")
-        }
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewHome() {
     LAB_WEEK_09Theme {
-        HomeScreen(navController = rememberNavController())
+        HomeScreen()
     }
 }
