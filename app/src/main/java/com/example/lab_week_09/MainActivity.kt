@@ -44,7 +44,7 @@ fun MyApp() {
     }
 }
 
-// 🏠 Home Screen
+// 🏠 Screen utama
 @Composable
 fun HomeScreen(navController: NavController) {
     var name by remember { mutableStateOf("") }
@@ -72,7 +72,6 @@ fun HomeScreen(navController: NavController) {
                 .padding(vertical = 8.dp)
         )
 
-        // Tombol Submit
         Button(
             onClick = {
                 if (name.isNotBlank()) {
@@ -85,7 +84,6 @@ fun HomeScreen(navController: NavController) {
             Text(text = stringResource(id = R.string.button_click))
         }
 
-        // Tombol Navigate
         Button(
             onClick = { navController.navigate("second") },
             modifier = Modifier.padding(vertical = 8.dp)
