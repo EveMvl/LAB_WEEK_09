@@ -46,7 +46,6 @@ fun MyApp() {
             HomeScreen(navController)
         }
 
-        // menerima list string
         composable("second/{items}") { backStackEntry ->
             val items = backStackEntry.arguments?.getString("items") ?: ""
             SecondScreen(navController, items)
@@ -54,7 +53,7 @@ fun MyApp() {
     }
 }
 
-// 🏠 HOME SCREEN — pakai ViewModel (Commit 4)
+// HOME SCREEN — ViewModel + Assignment Fixes
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -85,18 +84,30 @@ fun HomeScreen(
                 .padding(vertical = 8.dp)
         )
 
-        // Submit → tambah nama
+        // Submit (disabled if empty)
         Button(
             onClick = {
                 viewModel.addName(name)
                 name = ""
             },
+            enabled = name.isNotBlank(),
             modifier = Modifier.padding(vertical = 8.dp)
         ) {
             Text(text = stringResource(id = R.string.button_click))
         }
 
-        // Finish → navigate sambil kirim list
+        // BONUS — Clear Entire List
+        Button(
+            onClick = { viewModel.clearList() },
+            modifier = Modifier.padding(vertical = 8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.errorContainer
+            )
+        ) {
+            Text("Clear List")
+        }
+
+        // FINISH → navigate to second screen (pass list string)
         Button(
             onClick = {
                 val itemsString = viewModel.names.joinToString(", ")
@@ -107,7 +118,7 @@ fun HomeScreen(
             Text(text = stringResource(id = R.string.button_navigate))
         }
 
-        // List tampilan
+        // List
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(top = 16.dp)
@@ -123,7 +134,7 @@ fun HomeScreen(
     }
 }
 
-// 🎉 SECOND SCREEN — tampilkan string result (Commit 4 requirement)
+// SECOND SCREEN — SHOW RESULT STRING
 @Composable
 fun SecondScreen(navController: NavController, items: String) {
     Column(

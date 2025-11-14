@@ -15,4 +15,8 @@ class MainViewModel : ViewModel() {
             _names.add(name)
         }
     }
+    fun clearList() {
+        _names.clear()
+    }
+
 }
